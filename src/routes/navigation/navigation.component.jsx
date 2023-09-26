@@ -18,7 +18,7 @@ const Navigation = () => {
 					</Link>
 					<Link
 						className='nav-link'
-						to='/sign-in'>
+						to='/auth'>
 						Sign In
 					</Link>
 				</div>
