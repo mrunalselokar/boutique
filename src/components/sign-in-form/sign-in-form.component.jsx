@@ -1,14 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
 	createUserDocumentFromAuth,
 	signInWithGooglePopup,
 	signInUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
-
 import FormInput from "../form-input/form-input.component";
-import "./sign-in-form.styles.scss";
 import Button from "../button/button.component";
-
+import "./sign-in-form.styles.scss";
 const defaultFormFields = {
 	email: "",
 	password: "",
@@ -24,8 +22,7 @@ const SignInForm = () => {
 		event.preventDefault();
 
 		try {
-			const response = await signInUserWithEmailAndPassword(email, password);
-			console.log(response);
+			const { user } = await signInUserWithEmailAndPassword(email, password);
 			resetFormFields();
 		} catch (error) {
 			if (error.code === "auth/invalid-login-credentials") {
@@ -42,8 +39,7 @@ const SignInForm = () => {
 	};
 
 	const signInWithGoogle = async () => {
-		const { user } = await signInWithGooglePopup();
-		await createUserDocumentFromAuth(user);
+		await signInWithGooglePopup();
 	};
 	return (
 		<div className='sign-in-container'>
@@ -72,7 +68,7 @@ const SignInForm = () => {
 						buttonType={"google"}
 						type='button'
 						onClick={signInWithGoogle}>
-						Sign in with Google
+						Signin with Google
 					</Button>
 				</div>
 			</form>
