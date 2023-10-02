@@ -1,38 +1,38 @@
 import { createContext, useState, useEffect } from "react";
 
-export const addCartItem = (cartItems, productToAdd) => {
-	const cartItemMatches = (cartItem, productToAdd) => {
-		return cartItem.id === productToAdd.id;
+export const addCartItem = (cartItems, cartItemToAdd) => {
+	const cartItemMatches = (cartItem, cartItemToAdd) => {
+		return cartItem.id === cartItemToAdd.id;
 	};
 	const existingCartItem = cartItems.find((cartItem) =>
-		cartItemMatches(cartItem, productToAdd)
+		cartItemMatches(cartItem, cartItemToAdd)
 	);
 
 	if (existingCartItem) {
 		return cartItems.map((cartItem) =>
-			cartItemMatches(cartItem, productToAdd)
+			cartItemMatches(cartItem, cartItemToAdd)
 				? { ...cartItem, quantity: cartItem.quantity + 1 }
 				: cartItem
 		);
 	}
 
-	return [...cartItems, { ...productToAdd, quantity: 1 }];
+	return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
 };
 
-export const removeCartItem = (cartItems, productToRemove) => {
-	const cartItemMatches = (cartItem, productToRemove) => {
-		return cartItem.id === productToRemove.id;
+export const removeCartItem = (cartItems, cartItemToRemove) => {
+	const cartItemMatches = (cartItem, cartItemToRemove) => {
+		return cartItem.id === cartItemToRemove.id;
 	};
 
 	const existingCartItem = cartItems.find((cartItem) =>
-		cartItemMatches(cartItem, productToRemove)
+		cartItemMatches(cartItem, cartItemToRemove)
 	);
 
 	if (existingCartItem.quantity === 1) {
-		return cartItems.filter((cartItem) => cartItem.id === productToRemove.id);
+		return cartItems.filter((cartItem) => cartItem.id === cartItemToRemove.id);
 	}
 	return cartItems.map((cartItem) =>
-		cartItemMatches(cartItem, productToRemove)
+		cartItemMatches(cartItem, cartItemToRemove)
 			? { ...cartItem, quantity: cartItem.quantity - 1 }
 			: cartItem
 	);
@@ -60,10 +60,10 @@ export const CartProvider = ({ children }) => {
 		setCartCount(newCartCount);
 	}, [cartItems]);
 
-	const addItemToCart = (productToAdd) =>
-		setCartItems(addCartItem(cartItems, productToAdd));
-	const removeItemFromCart = (productToRemove) =>
-		setCartItems(removeCartItem(cartItems, productToRemove));
+	const addItemToCart = (cartItemToAdd) =>
+		setCartItems(addCartItem(cartItems, cartItemToAdd));
+	const removeItemFromCart = (cartItemToRemove) =>
+		setCartItems(removeCartItem(cartItems, cartItemToRemove));
 
 	const value = {
 		isCartOpen,
