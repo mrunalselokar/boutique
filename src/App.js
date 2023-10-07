@@ -15,16 +15,13 @@ import {
 
 const App = () => {
 	const dispatch = useDispatch();
-
 	useEffect(() => {
 		const unsubscribe = onAuthStateChangedListener((user) => {
 			if (user) {
 				createUserDocumentFromAuth(user);
 			}
-
 			dispatch(setCurrentUser(user));
 		});
-
 		return unsubscribe;
 	}, [dispatch]);
 
