@@ -6,6 +6,17 @@ import thunk from "redux-thunk";
 
 import { rootReducer } from "./root-reducer";
 
+const middleWares = [
+	process.env.NODE_ENV === "development" && logger,
+	thunk,
+].filter(Boolean);
+
+const composeEnhancer =
+	(process.env.NODE_ENV !== "production" &&
+		window &&
+		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+	compose;
+
 const persistConfig = {
 	key: "root",
 	storage,
@@ -13,22 +24,6 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const middleWares = [
-	process.env.NODE_ENV === "development" && logger,
-	thunk,
-].filter(Boolean);
-
-// const thunkMiddleware = (store) => (next) => (action) => {
-// 	if (typeof action == "function") {
-// 		action(dispatch);
-// 	}
-// };
-
-const composeEnhancer =
-	(process.env.NODE_ENV !== "production" &&
-		window &&
-		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-	compose;
 
 const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
 

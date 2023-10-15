@@ -4,7 +4,7 @@ import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import {
-	signInUserWithEmailAndPassword,
+	signInAuthUserWithEmailAndPassword,
 	signInWithGooglePopup,
 } from "../../utils/firebase/firebase.utils";
 
@@ -31,7 +31,7 @@ const SignInForm = () => {
 		event.preventDefault();
 
 		try {
-			await signInUserWithEmailAndPassword(email, password);
+			await signInAuthUserWithEmailAndPassword(email, password);
 			resetFormFields();
 		} catch (error) {
 			console.log("user sign in failed", error);
