@@ -1,20 +1,28 @@
-import { USER_ACTION_TYPES } from "./user.types";
+import { USER_ACTION_TYPES } from './user.types';
 import {
 	createAction,
+	withMatcher,
 	Action,
 	ActionWithPayload,
-	withMatcher,
-} from "../../utils/reducer/reducer.utils";
-
+} from '../../utils/reducer/reducer.utils';
 import {
 	UserData,
 	AdditionalInformation,
-} from "../../utils/firebase/firebase.utils";
-import { User } from "firebase/auth";
+} from '../../utils/firebase/firebase.utils';
 
 export type CheckUserSession = Action<USER_ACTION_TYPES.CHECK_USER_SESSION>;
 
+export type SetCurrentUser = ActionWithPayload<
+	USER_ACTION_TYPES.SET_CURRENT_USER,
+	UserData
+>;
+
 export type GoogleSignInStart = Action<USER_ACTION_TYPES.GOOGLE_SIGN_IN_START>;
+
+export type SignUpStart = ActionWithPayload<
+	USER_ACTION_TYPES.SIGN_UP_START,
+	{ email: string; password: string; displayName: string }
+>;
 
 export type EmailSignInStart = ActionWithPayload<
 	USER_ACTION_TYPES.EMAIL_SIGN_IN_START,
@@ -31,14 +39,9 @@ export type SignInFailed = ActionWithPayload<
 	Error
 >;
 
-export type SignUpStart = ActionWithPayload<
-	USER_ACTION_TYPES.SIGN_UP_START,
-	{ email: string }
->;
-
 export type SignUpSuccess = ActionWithPayload<
 	USER_ACTION_TYPES.SIGN_UP_SUCCESS,
-	{ user: User; additionalDetails: AdditionalInformation }
+	{ user: UserData; additionalDetails: AdditionalInformation }
 >;
 
 export type SignUpFailed = ActionWithPayload<
@@ -57,6 +60,11 @@ export type SignOutFailed = ActionWithPayload<
 
 export const checkUserSession = withMatcher(
 	(): CheckUserSession => createAction(USER_ACTION_TYPES.CHECK_USER_SESSION)
+);
+
+export const setCurrentUser = withMatcher(
+	(user: UserData): SetCurrentUser =>
+		createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user)
 );
 
 export const googleSignInStart = withMatcher(
@@ -88,7 +96,7 @@ export const signUpStart = withMatcher(
 );
 
 export const signUpSuccess = withMatcher(
-	(user: User, additionalDetails: AdditionalInformation): SignUpSuccess =>
+	(user: UserData, additionalDetails: AdditionalInformation): SignUpSuccess =>
 		createAction(USER_ACTION_TYPES.SIGN_UP_SUCCESS, { user, additionalDetails })
 );
 

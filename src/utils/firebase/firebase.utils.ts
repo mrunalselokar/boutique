@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import {
 	getAuth,
 	signInWithRedirect,
@@ -8,9 +8,9 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 	onAuthStateChanged,
-	User,
 	NextOrObserver,
-} from "firebase/auth";
+	User,
+} from 'firebase/auth';
 import {
 	getFirestore,
 	doc,
@@ -21,18 +21,18 @@ import {
 	query,
 	getDocs,
 	QueryDocumentSnapshot,
-} from "firebase/firestore";
+} from 'firebase/firestore';
 
-import { Category } from "../../store/categories/category.types";
-import { type } from "os";
+import { Category } from '../../store/categories/category.types';
+
 const firebaseConfig = {
-	apiKey: "AIzaSyBU7sybqtv-Jrf6r4BonN5WKE0dHaxcyaM",
-	authDomain: "boutique-db-4f7b1.firebaseapp.com",
-	projectId: "boutique-db-4f7b1",
-	storageBucket: "boutique-db-4f7b1.appspot.com",
-	messagingSenderId: "13244862034",
-	appId: "1:13244862034:web:f9afce8ae47f42313dd98b",
-	measurementId: "G-4288JWPN0G",
+	apiKey: 'AIzaSyBU7sybqtv-Jrf6r4BonN5WKE0dHaxcyaM',
+	authDomain: 'boutique-db-4f7b1.firebaseapp.com',
+	projectId: 'boutique-db-4f7b1',
+	storageBucket: 'boutique-db-4f7b1.appspot.com',
+	messagingSenderId: '13244862034',
+	appId: '1:13244862034:web:f9afce8ae47f42313dd98b',
+	measurementId: 'G-4288JWPN0G',
 };
 
 initializeApp(firebaseConfig);
@@ -40,7 +40,7 @@ initializeApp(firebaseConfig);
 const googleProvider = new GoogleAuthProvider();
 
 googleProvider.setCustomParameters({
-	prompt: "select_account",
+	prompt: 'select_account',
 });
 
 export const auth = getAuth();
@@ -54,6 +54,7 @@ export const db = getFirestore();
 export type ObjectToAdd = {
 	title: string;
 };
+
 export const addCollectionAndDocuments = async <T extends ObjectToAdd>(
 	collectionKey: string,
 	objectsToAdd: T[]
@@ -67,11 +68,11 @@ export const addCollectionAndDocuments = async <T extends ObjectToAdd>(
 	});
 
 	await batch.commit();
-	console.log("done");
+	console.log('done');
 };
 
 export const getCategoriesAndDocuments = async (): Promise<Category[]> => {
-	const collectionRef = collection(db, "categories");
+	const collectionRef = collection(db, 'categories');
 	const q = query(collectionRef);
 
 	const querySnapshot = await getDocs(q);
@@ -96,7 +97,7 @@ export const createUserDocumentFromAuth = async (
 ): Promise<void | QueryDocumentSnapshot<UserData>> => {
 	if (!userAuth) return;
 
-	const userDocRef = doc(db, "users", userAuth.uid);
+	const userDocRef = doc(db, 'users', userAuth.uid);
 
 	const userSnapshot = await getDoc(userDocRef);
 
@@ -112,7 +113,7 @@ export const createUserDocumentFromAuth = async (
 				...additionalInformation,
 			});
 		} catch (error) {
-			console.log("error creating the user", error);
+			console.log('error creating the user', error);
 		}
 	}
 
