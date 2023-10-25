@@ -1,4 +1,5 @@
 import { FC, ButtonHTMLAttributes } from 'react';
+
 import {
 	BaseButton,
 	GoogleSignInButton,
@@ -23,6 +24,7 @@ export type ButtonProps = {
 	buttonType?: BUTTON_TYPE_CLASSES;
 	isLoading?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
+
 const Button: FC<ButtonProps> = ({
 	children,
 	buttonType,
